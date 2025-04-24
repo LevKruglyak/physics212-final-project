@@ -4,6 +4,7 @@ theory:
       lens_potential_accuracy: 1
       num_massive_neutrinos: 1
       nnu: 3.044
+      mnu: 0.06
       theta_H0_range:
       - 20
       - 100
@@ -16,14 +17,12 @@ likelihood:
       github_repository: carronj/planck_PR4_lensing
       min_version: 1.0.2
 params:
+  H0:
+    latex: H_0
+
   logA:
-    prior:
-      min: 1.61
-      max: 3.91
-    ref:
-      dist: norm
-      loc: 3.05
-      scale: 0.001
+    prior: {min: 1.61, max: 3.91}
+    ref: {dist: norm, loc: 3.05, scale: 0.001}
     proposal: 0.001
     latex: \log(10^{10} A_\mathrm{s})
     drop: true
@@ -31,57 +30,35 @@ params:
     value: 'lambda logA: 1e-10*np.exp(logA)'
     latex: A_\mathrm{s}
   ns:
-    prior:
-      min: 0.8
-      max: 1.2
-    ref:
-      dist: norm
-      loc: 0.965
-      scale: 0.004
+    prior: {min: 0.8, max: 1.2}
+    ref: {dist: norm, loc: 0.965, scale: 0.004}
     proposal: 0.002
     latex: n_\mathrm{s}
   thetastar:
-    prior:
-      dist: norm
-      loc: 0.0104110
-      scale: 0.0000053
-    ref:
-      dist: norm
-      loc: 0.0104110
-      scale: 0.0000053
+    prior: {dist: norm, loc: 0.0104110, scale: 0.0000053}
+    ref: {dist: norm, loc: 0.0104110, scale: 0.0000053}
     proposal: 0.000002
     latex: \theta_*
-  H0:
-    latex: H_0
-    min: 20
-    max: 100
   ombh2:
-    prior:
-      dist: norm
-      loc: 0.0222
-      scale: 0.0005
-    ref:
-      dist: norm
-      loc: 0.0222
-      scale: 0.0005
+    prior: {dist: norm, loc: 0.0222, scale: 0.0005}
+    ref: {dist: norm, loc: 0.0222, scale: 0.0005}
     proposal: 0.0004
     latex: \Omega_\mathrm{b} h^2
   omch2:
-    prior:
-      min: 0.001
-      max: 0.99
-    ref:
-      dist: norm
-      loc: 0.12
-      scale: 0.003
+    prior: {min: 0.001, max: 0.99}
+    ref: {dist: norm, loc: 0.12, scale: 0.003}
     proposal: 0.002
     latex: \Omega_\mathrm{c} h^2
+  tau:
+    prior: {min: 0.01, max: 0.8}
+    ref: {dist: norm, loc: 0.055, scale: 0.006}
+    proposal: 0.003
+    latex: \tau_\mathrm{reio}
   omegam:
     latex: \Omega_\mathrm{m}
   omegamh2:
     derived: 'lambda omegam, H0: omegam*(H0/100)**2'
     latex: \Omega_\mathrm{m} h^2
-  mnu: 0.06
   omega_de:
     latex: \Omega_\Lambda
   YHe:
@@ -91,16 +68,6 @@ params:
   DHBBN:
     derived: 'lambda DH: 10**5*DH'
     latex: 10^5 \mathrm{D}/\mathrm{H}
-  tau:
-    prior:
-      min: 0.01
-      max: 0.8
-    ref:
-      dist: norm
-      loc: 0.055
-      scale: 0.006
-    proposal: 0.003
-    latex: \tau_\mathrm{reio}
   zrei:
     latex: z_\mathrm{re}
   sigma8:

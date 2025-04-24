@@ -1,0 +1,60 @@
+theory:
+  camb:
+    extra_args:
+      num_massive_neutrinos: 1
+      mnu: 0.06
+      nnu: 3.044
+likelihood:
+  bao.desi_dr2: null
+  planck_2018_lowl.TT: null
+  planck_2018_lowl.EE: null
+  planck_NPIPE_highl_CamSpec.TTTEEE: null
+  planckpr4lensing:
+    package_install:
+      github_repository: carronj/planck_PR4_lensing
+      min_version: 1.0.2
+params:
+  H0:
+    latex: H_0
+    drop: true
+  omegam:
+    latex: \Omega_\mathrm{m}
+
+  ombh2:
+    prior: {dist: norm, loc: 0.02218, scale: 0.00055}
+    ref: {dist: norm, loc: 0.02218, scale: 0.00056}
+    proposal: 0.0004
+    latex: \Omega_\mathrm{b} h^2
+  omch2:
+    prior: {min: 0.001, max: 0.99}
+    ref: {dist: norm, loc: 0.12, scale: 0.003}
+    proposal: 0.002
+    latex: \Omega_\mathrm{c} h^2
+  theta_MC_100:
+    prior: {min: 0.5, max: 10}
+    ref: {dist: norm, loc: 1.04109, scale: 0.0004}
+    proposal: 0.0002
+    latex: 100\theta_\mathrm{MC}
+    drop: true
+    renames: theta
+  cosmomc_theta:
+    value: 'lambda theta_MC_100: 1.e-2*theta_MC_100'
+    derived: false
+  logA:
+    prior: {min: 1.61, max: 3.91}
+    ref: {dist: norm, loc: 3.05, scale: 0.001}
+    proposal: 0.001
+    latex: \log(10^{10} A_\mathrm{s})
+    drop: true
+  As:
+    value: 'lambda logA: 1e-10*np.exp(logA)'
+    latex: A_\mathrm{s}
+  ns:
+    prior: {min: 0.8, max: 1.2}
+    ref: {dist: norm, loc: 0.965, scale: 0.004}
+    proposal: 0.002
+    latex: n_\mathrm{s}
+sampler:
+  mcmc:
+    covmat: auto
+output: chains/DESI+BBN+CMB

@@ -1,0 +1,165 @@
+theory:
+  camb:
+    version: 1.5.9
+    path: null
+    speed: 0.3
+    stop_at_error: false
+    extra_args:
+      num_massive_neutrinos: 1
+      mnu: 0.06
+      nnu: 3.044
+    ignore_obsolete: false
+    use_renames: false
+    external_primordial_pk: false
+    renames:
+      omegabh2: ombh2
+      omegach2: omch2
+      omegal: omega_de
+      omegak: omk
+      yhe: YHe
+      yheused: YHe
+      YpBBN: Y_p
+    input_params:
+    - ns
+    - As
+    - ombh2
+    - omch2
+    - thetastar
+    output_params:
+    - H0
+    - omegam
+likelihood:
+  bao.desi_dr2:
+    path: null
+    measurements_file: bao_data/desi_bao_dr2/desi_gaussian_bao_ALL_GCcomb_mean.txt
+    cov_file: bao_data/desi_bao_dr2/desi_gaussian_bao_ALL_GCcomb_cov.txt
+    rs_fid: 1
+    aliases:
+    - BAO
+    speed: 2000
+    type: BAO
+    rs_rescale: null
+    prob_dist: null
+    invcov_file: null
+    redshift: null
+    observable_1: null
+    observable_2: null
+    observable_3: null
+    grid_file: null
+    stop_at_error: false
+    version: null
+    input_params: []
+    output_params: []
+params:
+  H0:
+    latex: H_0
+    derived: true
+  omegam:
+    latex: \Omega_\mathrm{m}
+    derived: true
+  ombh2:
+    prior:
+      dist: norm
+      loc: 0.02218
+      scale: 0.00055
+    ref:
+      dist: norm
+      loc: 0.02218
+      scale: 0.00056
+    proposal: 0.0004
+    latex: \Omega_\mathrm{b} h^2
+    renames:
+    - omegabh2
+  ns:
+    prior:
+      dist: norm
+      loc: 0.9649
+      scale: 0.042
+    ref:
+      dist: norm
+      loc: 0.965
+      scale: 0.004
+    proposal: 0.002
+    latex: n_\mathrm{s}
+  omch2:
+    prior:
+      min: 0.001
+      max: 0.99
+    ref:
+      dist: norm
+      loc: 0.12
+      scale: 0.003
+    proposal: 0.002
+    latex: \Omega_\mathrm{c} h^2
+    renames:
+    - omegach2
+  thetastar:
+    prior:
+      dist: norm
+      loc: 0.010411
+      scale: 5.3e-06
+    ref:
+      dist: norm
+      loc: 0.010411
+      scale: 5.3e-06
+    proposal: 2.0e-06
+    latex: \theta_*
+  logA:
+    prior:
+      min: 1.61
+      max: 3.91
+    ref:
+      dist: norm
+      loc: 3.05
+      scale: 0.001
+    proposal: 0.001
+    latex: \log(10^{10} A_\mathrm{s})
+    drop: true
+  As:
+    value: 'lambda logA: 1e-10*np.exp(logA)'
+    latex: A_\mathrm{s}
+    derived: true
+  chi2__BAO:
+    latex: \chi^2_\mathrm{BAO}
+    derived: true
+sampler:
+  mcmc:
+    burn_in: 0
+    max_tries: 40d
+    covmat: auto
+    covmat_params: null
+    proposal_scale: 2.4
+    output_every: 60s
+    learn_every: 40d
+    temperature: 1
+    learn_proposal: true
+    learn_proposal_Rminus1_max: 2.0
+    learn_proposal_Rminus1_max_early: 30.0
+    learn_proposal_Rminus1_min: 0.0
+    max_samples: .inf
+    Rminus1_stop: 0.01
+    Rminus1_cl_stop: 0.2
+    Rminus1_cl_level: 0.95
+    Rminus1_single_split: 4
+    measure_speeds: true
+    oversample_power: 0.4
+    oversample_thin: true
+    drag: false
+    blocking:
+    - - 1
+      - - ombh2
+        - omch2
+        - thetastar
+    - - 3
+      - - ns
+        - logA
+    callback_function: null
+    callback_every: null
+    seed: null
+    check_every: null
+    oversample: null
+    drag_limits: null
+    fallback_covmat_scale: 4
+    version: 3.5.7
+output: DESI+BBN+thetastar
+version: 3.5.7
