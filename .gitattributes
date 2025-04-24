@@ -1,2 +1,9 @@
 final-presentation.key filter=lfs diff=lfs merge=lfs -text
 chains/CMB.1.txt filter=lfs diff=lfs merge=lfs -text
+chains/DESI+BBN+CMB.1.txt filter=lfs diff=lfs merge=lfs -text
+chains/DESI+BBN+thetastar.1.txt filter=lfs diff=lfs merge=lfs -text
+chains/DESI+BBN.1.txt filter=lfs diff=lfs merge=lfs -text
+chains/CMB.minimum.txt filter=lfs diff=lfs merge=lfs -text
+chains/DE-EOS-CMB-prior.1.txt filter=lfs diff=lfs merge=lfs -text
+chains/DE-EOS.1.txt filter=lfs diff=lfs merge=lfs -text
+chains/DESI+BBN+CMB-prior.1.txt filter=lfs diff=lfs merge=lfs -text
