@@ -29,13 +29,15 @@ root      = 'CMB'
 samplesCMB = loadMCSamples(f"{chain_dir}/CMB")
 samplesDESIBBN = loadMCSamples(f"{chain_dir}/DESI+BBN")
 samplesDESIBBNthetastar = loadMCSamples(f"{chain_dir}/DESI+BBN+thetastar")
+samplesDESIBBNCMB = loadMCSamples(f"{chain_dir}/DESI+BBN+CMB")
+samplesDESIBBNCMBprior = loadMCSamples(f"{chain_dir}/DESI+BBN+CMB-prior")
 
 H0   = samplesCMB.getParams().H0
 omegam   = samplesCMB.getParams().omegam
 h    = H0 / 100.0
 C    = np.mean(omegam * h**3)
 
-g = plots.get_single_plotter(width_inch=6.5)
+g = plots.get_single_plotter(width_inch=5.5)
 g.plot_2d([samplesDESIBBN, samplesDESIBBNthetastar, samplesCMB],
           ['H0','omegam'], filled=True)
 omegam_g = np.linspace(*g.subplots[0][0].get_ylim(), 400)
@@ -45,19 +47,43 @@ g.add_legend([r'DESI+BBN',
               r'DESI+BBN+$\theta_*$',
               r'CMB (Planck 2018 + lensing)',
               r'constant $\Omega_mh^3$ direction'],
-             legend_loc='upper right')  
+              legend_loc='upper right')
 
 plt.xlabel(r'$H_0\;[\mathrm{km\,s}^{-1}\,\mathrm{Mpc}^{-1}]$')
 plt.ylabel(r'$\Omega_\mathrm{m}$')
-plt.savefig(fname="figures/H0-omegam")
+plt.savefig(fname="figures/H0-omegam.pdf")
+
+g = plots.get_single_plotter(width_inch=4)
+g.plot_2d([samplesCMB],
+          ['H0','omegam'], filled=True)
+omegam_g = np.linspace(*g.subplots[0][0].get_ylim(), 400)
+H0_g     = 100.0*(C/omegam_g)**(1/3)
+g.add_line(H0_g, omegam_g, ls='--', lw=1)
+plt.xlabel(r'$H_0\;[\mathrm{km\,s}^{-1}\,\mathrm{Mpc}^{-1}]$')
+plt.ylabel(r'$\Omega_\mathrm{m}$')
+plt.savefig(fname="figures/CMB-H0-omegam.pdf")
+
+g = plots.get_single_plotter(width_inch=5.5)
+g.plot_2d([samplesCMB, samplesDESIBBNCMBprior, samplesDESIBBNCMB],
+          ['H0','omegam'], filled=True)
+omegam_g = np.linspace(*g.subplots[0][0].get_ylim(), 400)
+H0_g     = 100.0*(C/omegam_g)**(1/3)
+g.add_line(H0_g, omegam_g, ls='--', lw=1)
+g.add_legend([r'CMB (Planck 2018 + lensing)',
+              r'DESI+BBN+CMB (prior)',
+              r'DESI+BBN+CMB',
+              r'constant $\Omega_mh^3$ direction'],
+             legend_loc='upper right')  
+plt.xlabel(r'$H_0\;[\mathrm{km\,s}^{-1}\,\mathrm{Mpc}^{-1}]$')
+plt.ylabel(r'$\Omega_\mathrm{m}$')
+plt.savefig(fname="figures/DESI-CMB-H0-omegam.pdf")
 
 data = np.loadtxt(f'{chain_dir}/CMB.progress', usecols=(0,3))
 x = data[:, 0]
 y = data[:, 1]
 
-plt.figure(figsize=(6, 2.5), dpi=100)
+plt.figure(figsize=(3.2, 2.5), dpi=100)
 plt.yscale('log')
-plt.title(r'MCMC $R-1$ for CMB (Planck 2018 + lensing)')
 plt.plot(x, y, linestyle='-',linewidth=1, color='blue', label=r'$R-1$')
 plt.xlabel('Number of Accepted Samples')
 plt.ylabel(r'$R-1$')
